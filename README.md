@@ -1,20 +1,11 @@
 # OSDHelp
 
-If you are reading this page then you didn't add a value for the RepoFolder parameter
-
+RepoFolder parameter was not specified
 Try one of these commands:
 
-**Out of Box Experience**
+OSDHelp Autopilot
 OSDHelp OOBE
-
-**OSDCloud Setup**
-OSDHelp OSDCloudSetup
-
-**Edit-OSDCloud.winpe**
-OSDHelp OSDCloudWinPE
-
-**OSDCloud Deployment Samples**
 OSDHelp OSDCloudDeploy
-
-**OSDCloud Deployment Task Sequences**
+OSDHelp OSDCloudSetup
 OSDHelp OSDCloudTasks
+OSDHelp OSDCloudWinPE
