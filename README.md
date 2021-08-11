@@ -1,20 +1,20 @@
-# OSDeployPad
+# OSDHelp
 
 If you are reading this page then you didn't add a value for the RepoFolder parameter
 
 Try one of these commands:
 
 **Out of Box Experience**
-Start-OSDeployPad OOBE
+OSDHelp OOBE
 
 **OSDCloud Setup**
-Start-OSDeployPad OSDCloudSetup
+OSDHelp OSDCloudSetup
 
 **Edit-OSDCloud.winpe**
-Start-OSDeployPad OSDCloudWinPE
+OSDHelp OSDCloudWinPE
 
 **OSDCloud Deployment Samples**
-Start-OSDeployPad OSDCloudDeploy
+OSDHelp OSDCloudDeploy
 
 **OSDCloud Deployment Task Sequences**
-Start-OSDeployPad OSDCloudTasks
+OSDHelp OSDCloudTasks

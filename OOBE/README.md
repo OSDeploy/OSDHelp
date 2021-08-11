@@ -1,4 +1,4 @@
 **Out of Box Experience**
-Start-OSDeployPad OOBE
+OSDHelp OOBE
 
 These scripts should be run in OOBE
