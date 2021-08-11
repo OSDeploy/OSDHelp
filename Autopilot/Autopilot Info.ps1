@@ -1,3 +1,4 @@
+#Usage
 #https://www.powershellgallery.com/packages/Get-WindowsAutoPilotInfo/3.5
 #C:\Program Files\WindowsPowerShell\Scripts\Get-WindowsAutoPilotInfo.ps1 [[-Name] 
 #<String[]>] [-OutputFile <String>] [-GroupTag <String>] [-AssignedUser <String>] 
@@ -9,8 +10,10 @@
 #<String>] [-AppId <String>] [-AppSecret <String>] [-AddToGroup <String>] 
 #[-AssignedComputerName <String>] [-Assign] [-Reboot] [<CommonParameters>]
 
-if (!(Get-Command Get-WindowsAutoPilotInfo)) {
+#Install
+if (!(Get-Command Get-WindowsAutoPilotInfo -ErrorAction Ignore)) {
     Install-Script Get-WindowsAutoPilotInfo -Force -Verbose
 }
 
-Get-WindowsAutoPilotInfo.ps1
+#Execute
+& "$env:ProgramFiles\WindowsPowerShell\Scripts\Get-WindowsAutoPilotInfo.ps1"

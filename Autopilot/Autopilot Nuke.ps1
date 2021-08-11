@@ -1,7 +1,10 @@
+#Usage
 #https://www.powershellgallery.com/packages/AutopilotNuke/2.3
 
-if (!(Get-Command AutopilotNuke)) {
+#Install
+if (!(Get-Command AutopilotNuke -ErrorAction Ignore)) {
     Install-Script AutopilotNuke -Force -Verbose
 }
 
-& 'C:\Program Files\WindowsPowerShell\Scripts\AutopilotNuke.ps1'
+#Execute
+& "$env:ProgramFiles\WindowsPowerShell\Scripts\AutopilotNuke.ps1"

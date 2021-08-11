@@ -1,7 +1,10 @@
-#C:\Program Files\WindowsPowerShell\Scripts\Get-AutopilotDiagnostics.ps1 [[-CABFile] <String>] [[-ZIPFile] <String>] [-Online] [-AllSessions] [-ShowPolicies]
+#Usage
+#[[-CABFile] <String>] [[-ZIPFile] <String>] [-Online] [-AllSessions] [-ShowPolicies]
 
-if (!(Get-Command Get-AutopilotDiagnostics)) {
+#Install
+if (!(Get-Command Get-AutopilotDiagnostics -ErrorAction Ignore)) {
     Install-Script Get-AutopilotDiagnostics -Force -Verbose
 }
 
-Get-AutopilotDiagnostics.ps1
+#Execute
+& "$env:ProgramFiles\WindowsPowerShell\Scripts\Get-AutopilotDiagnostics.ps1"
