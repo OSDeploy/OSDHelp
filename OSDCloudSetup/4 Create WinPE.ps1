@@ -6,7 +6,6 @@ Import-Module OSD -Force
 
 $Params = @{
     CloudDriver = 'Dell','VMware','WiFi'
-    StartUpdate = $true
     StartOSDCloudGUI = $true
 }
 Edit-OSDCloud.winpe @Params

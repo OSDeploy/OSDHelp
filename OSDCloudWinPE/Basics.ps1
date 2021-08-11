@@ -8,7 +8,6 @@
 $Params = @{
     CloudDriver = 'Dell','VMware','WiFi'
     StartOSDCloudGUI = $true
-    StartUpdate = $true
     Wallpaper = "$env:ProgramData\OSDCloud\Resources\Wallpaper\Wallpaper.jpg"
 }
 Edit-OSDCloud.winpe @Params

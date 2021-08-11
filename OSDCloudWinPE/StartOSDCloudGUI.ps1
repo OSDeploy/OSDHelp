@@ -1,9 +1,5 @@
 #Requires -RunAsAdministrator
 
-#How To: Update OSD Module and start OSDCloudGUI automatically
+#How To: WinPE startup to OSDCloudGUI
 
-$Params = @{
-    StartUpdate = $true
-    StartOSDCloudGUI = $true
-}
-Edit-OSDCloud.winpe @Params
+Edit-OSDCloud.winpe -StartOSDCloudGUI

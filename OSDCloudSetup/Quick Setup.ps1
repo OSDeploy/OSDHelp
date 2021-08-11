@@ -3,7 +3,7 @@
 #How To: Quick Setup of OSDCloud
 #WiFi: Enabled
 #Drivers: Dell, VMware, and WiFi
-#Startup: Update
+#Startup: OSDCloudGUI
 
 Install-Module OSD -Force
 Import-Module OSD -Force
@@ -12,7 +12,6 @@ New-OSDCloud.workspace -WorkspacePath C:\OSDCloud
 
 $Params = @{
     CloudDriver = 'Dell','VMware','WiFi'
-    StartUpdate = $true
     StartOSDCloudGUI = $true
 }
 Edit-OSDCloud.winpe @Params

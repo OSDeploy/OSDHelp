@@ -1,11 +1,8 @@
 #Requires -RunAsAdministrator
 
-#How To: Update OSD Module and start OSDPad automatically
+#How To: Start OSDPad with OAuth Token
 #OSDPad will load scripts from https://github.com/OSDeploy/OSDHelp/tree/main/OSDCloudDeploy
 #OAuth Token enables OSDPad Child-Items
+#Replace all the 'xxxx' with your OAuth Token
 
-$Params = @{
-    StartUpdate = $true
-    StartOSDPad = "OSDeploy OSDHelp OSDCloudDeploy -OAuth 'xxxxxxxxxxxxxxxxxxxx'"
-}
-Edit-OSDCloud.winpe @Params
+Edit-OSDCloud.winpe -StartOSDPad "OSDeploy OSDHelp OSDCloudDeploy -OAuth 'xxxxxxxxxxxxxxxxxxxx'"
