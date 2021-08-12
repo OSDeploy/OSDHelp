@@ -4,6 +4,7 @@ RepoFolder parameter was not specified
 Try one of these commands:
 
 OSDHelp Autopilot
+OSDHelp Hardware
 OSDHelp MSSettings
 OSDHelp OOBE
 OSDHelp OSDCloudDeploy
