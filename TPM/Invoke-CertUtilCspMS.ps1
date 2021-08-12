@@ -1,0 +1,1 @@
+Invoke-Exe Certutil -csp "Microsoft Platform Crypto Provider" -key
