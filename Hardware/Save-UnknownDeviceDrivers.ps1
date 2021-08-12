@@ -3,7 +3,7 @@ $UnknownDevices = Get-WmiObject -Class Win32_PNPEntity | Where-Object {$_.Config
 $Random = Get-Random
 
 foreach ($Item in $UnknownDevices) {
-    Write-Host -ForegroundColor Magenta "$($Item.DeviceID)"
+    Write-Host -ForegroundColor Cyan "$($Item.DeviceID)"
     Save-MsUpCatDriver -HardwareID $Item.DeviceID -DestinationDirectory "$env:Temp\Drivers\$Random"
 }
 
