@@ -1,0 +1,1 @@
+Start-Process MDMDiagnosticsTool.exe -ArgumentList "-area Autopilot;TPM","-cab C:\Temp\MDMAutopilotTpm.cab"

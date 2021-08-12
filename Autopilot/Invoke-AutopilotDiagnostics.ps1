@@ -8,3 +8,6 @@ if (!(Get-Command Get-AutopilotDiagnostics -ErrorAction Ignore)) {
 
 #Execute
 & "$env:ProgramFiles\WindowsPowerShell\Scripts\Get-AutopilotDiagnostics.ps1"
+
+#ExecuteOnline
+#& "$env:ProgramFiles\WindowsPowerShell\Scripts\Get-AutopilotDiagnostics.ps1" -Online

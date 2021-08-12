@@ -1,0 +1,1 @@
+Start-Process MDMDiagnosticsTool.exe -ArgumentList '-out C:\Temp'

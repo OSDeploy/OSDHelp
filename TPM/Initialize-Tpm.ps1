@@ -1,0 +1,1 @@
+Initialize-Tpm -AllowClear -AllowPhysicalPresence
