@@ -1,1 +1,1 @@
-Get-TPM
+Get-Tpm
