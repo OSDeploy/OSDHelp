@@ -1,0 +1,1 @@
+Get-WmiObject -Class Win32_PNPEntity | Where-Object {$_.Status -eq 'Error'} | Sort-Object Name, DeviceID -Unique
