@@ -1,0 +1,1 @@
+Get-WmiObject -Class Win32_PNPEntity | Where-Object {$_.ConfigManagerErrorCode -eq '28'} | Sort-Object Name, DeviceID -Unique

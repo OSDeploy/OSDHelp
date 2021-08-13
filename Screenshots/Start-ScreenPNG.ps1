@@ -1,0 +1,1 @@
+Get-ScreenPNG -Delay 2 -Count 9999 -Directory $env:SystemRoot\Temp\Screenshots

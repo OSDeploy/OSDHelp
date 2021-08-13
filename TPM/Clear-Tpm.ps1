@@ -1,1 +1,1 @@
-Clear-TPM
+Clear-Tpm

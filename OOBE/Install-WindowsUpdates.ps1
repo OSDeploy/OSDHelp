@@ -18,5 +18,5 @@ if ($UpdateWindows) {
     Add-WUServiceManager -MicrosoftUpdate -Confirm:$false
 
     Write-Host -ForegroundColor DarkCyan 'Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -IgnoreReboot'
-    Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -IgnoreReboot -NotTitle 'Malicious','Preview'
+    Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -IgnoreReboot -NotTitle 'Malicious'
 }
