@@ -17,4 +17,4 @@ $Events += Get-WinEvent -FilterHashtable @{StartTime = $StartTime; LogName = 'Mi
 $Events += Get-WinEvent -FilterHashtable @{StartTime = $StartTime; LogName = 'Microsoft-Windows-Shell-Core/Operational'} -ErrorAction Ignore
 $Events += Get-WinEvent -FilterHashtable @{StartTime = $StartTime; LogName = 'Microsoft-Windows-User Device Registration/Admin'} -ErrorAction Ignore
 
-$Events | Sort-Object TimeCreated | Select-Object TimeCreated,LevelDisplayName,LogName,Id,Message,ProviderName | Out-GridView
+$Events | Where-Object {$_.id -notin (182)} | Sort-Object TimeCreated | Select-Object TimeCreated,LevelDisplayName,LogName,Id,Message,ProviderName | Out-GridView

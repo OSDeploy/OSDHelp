@@ -7,4 +7,4 @@ $Events = Get-WinEvent -FilterHashtable @{
     LogName = 'Microsoft-Windows-Time-Service/Operational'
     StartTime = $StartTime
 }
-$Events | Sort-Object TimeCreated | Select-Object TimeCreated,LevelDisplayName,LogName,Id,Message,ProviderName | Out-GridView
+$Events | Where-Object {$_.id -notin (262,263,272)} | Sort-Object TimeCreated | Select-Object TimeCreated,LevelDisplayName,LogName,Id,Message,ProviderName | Out-GridView
