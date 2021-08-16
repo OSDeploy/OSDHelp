@@ -4,12 +4,12 @@
 #================================================
 $Title = 'WinEventMonitor-MDMDiagnostics'
 $host.ui.RawUI.WindowTitle = $Title
+$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.size(2000,2000)
 #================================================
 #   Transcript
 #================================================
 $Transcript = "$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-$Title.log"
 Start-Transcript -Path (Join-Path "$env:SystemRoot\Temp" $Transcript) -ErrorAction Ignore
-$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.size(2000,2000)
 #================================================
 #   Main Variables
 #================================================
@@ -19,6 +19,8 @@ $FormatEnumerationLimit = -1
 # This will go back 5 days in the logs.  Adjust as needed
 [DateTime]$StartTime = (Get-Date).AddDays(- 5)
 $ExcludeEventId = @(200,202,260,263,266,272)
+# Remove Line Wrap
+reg add HKCU\Console /v LineWrap /t REG_DWORD /d 0 /f
 #================================================
 #   LogName
 #   These are the WinEvent logs to monitor

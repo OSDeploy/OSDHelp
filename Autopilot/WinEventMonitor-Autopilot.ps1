@@ -17,8 +17,10 @@ $Monitor = $true
 $Results = @()
 $FormatEnumerationLimit = -1
 # This will go back 5 days in the logs.  Adjust as needed
-$StartTime = (Get-Date).AddDays(- 5)
+[DateTime]$StartTime = (Get-Date).AddDays(- 5)
 $ExcludeEventId = @(200,202,260,263,266,272)
+# Remove Line Wrap
+reg add HKCU\Console /v LineWrap /t REG_DWORD /d 0 /f
 #================================================
 #   LogName
 #   These are the WinEvent logs to monitor
