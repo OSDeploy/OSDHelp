@@ -1,13 +1,23 @@
+#Requires -RunAsAdministrator
 #================================================
 #   Initialize
 #================================================
-$host.ui.RawUI.WindowTitle = 'MDM Event Monitor'
+$Title = 'WinEventMonitor-MDMDiagnostics'
+$host.ui.RawUI.WindowTitle = $Title
+$Transcript = "$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-$Title.log"
+Start-Transcript -Path (Join-Path "$env:SystemRoot\Temp" $Transcript) -ErrorAction Ignore
+#================================================
+#   Main Variables
+#================================================
 $Monitor = $true
 $Results = @()
-$StartTime = (Get-Date).AddDays(- 2)
 $FormatEnumerationLimit = -1
+# This will go back 5 days in the logs.  Adjust as needed
+$StartTime = (Get-Date).AddDays(- 5)
+$ExcludeEventId = @(200,202,260,263,272)
 #================================================
 #   LogName
+#   These are the WinEvent logs to monitor
 #================================================
 $LogName = @(
     'Microsoft-Windows-AAD/Operational'
@@ -32,31 +42,29 @@ $FilterHashtable = @{
     LogName = $LogName
 }
 #================================================
-#   Get-WinEvent
+#   Get-WinEvent Results
 #================================================
 $Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore
+$StartTime = [DateTime]::Now.DateTim
+$Results = $Results | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
+$Results = $Results | Select-Object TimeCreated, ProviderName, Id, LevelDisplayName, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
 #================================================
-#   Results
+#   Display Results
 #================================================
-$StartTime = [DateTime]::Now.DateTime #Reset Start Time
-$Results = $Results | Sort-Object TimeCreated | Where-Object {$_.Id -notin (200,202,260,263,272)}
-$Results = $Results | Select-Object TimeCreated, ProviderName, Id, LevelDisplayName, @{Name='Message';Expression={ ($_.Message -Split '\n')[0] }}
-#Write-Output $Results | Format-Table -HideTableHeaders
-
 foreach ($Item in $Results) {
     if ($Item.LevelDisplayName -eq 'Error') {
-        Write-Host "$($Item.TimeCreated) $($Item.Id) $($Item.Message)" -ForegroundColor Red
+        Write-Host "$($Item.TimeCreated) $($Item.LevelDisplayName) $($Item.Id) $($Item.Message)" -ForegroundColor Red
     }
     elseif ($Item.LevelDisplayName -eq 'Warning') {
-        Write-Host "$($Item.TimeCreated) $($Item.Id) $($Item.Message)" -ForegroundColor Yellow
+        Write-Host "$($Item.TimeCreated) $($Item.LevelDisplayName) $($Item.Id) $($Item.Message)" -ForegroundColor Yellow
         
     }
     else {
-        Write-Host "$($Item.TimeCreated) $($Item.Id) $($Item.Message)"
+        Write-Host "$($Item.TimeCreated) $($Item.LevelDisplayName) $($Item.Id) $($Item.Message)"
     }
 }
 #================================================
-#   Monitor
+#   Monitor New Events
 #================================================
 if ($Monitor) {
     Write-Host -ForegroundColor Cyan "Listening ..."
@@ -70,26 +78,25 @@ if ($Monitor) {
             LogName = $LogName
         }
         #================================================
-        #   Get-WinEvent
+        #   Get-WinEvent Results
         #================================================
         $Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore
+        $StartTime = [DateTime]::Now.DateTim
+        $Results = $Results | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
+        $Results = $Results | Select-Object TimeCreated, ProviderName, Id, LevelDisplayName, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
         #================================================
-        #   Results
+        #   Display Results
         #================================================
-        $StartTime = [DateTime]::Now.DateTime #Reset Start Time
-        $Results = $Results | Sort-Object TimeCreated | Where-Object {$_.Id -notin (200,202,260,263,272)}
-        $Results = $Results | Select-Object TimeCreated, ProviderName, Id, LevelDisplayName, @{Name='Message';Expression={ ($_.Message -Split '\n')[0] }}
-        #Write-Output $Results | Format-Table -HideTableHeaders
         foreach ($Item in $Results) {
             if ($Item.LevelDisplayName -eq 'Error') {
-                Write-Host "$($Item.TimeCreated) $($Item.Id) $($Item.Message)" -ForegroundColor Red
+                Write-Host "$($Item.TimeCreated) $($Item.LevelDisplayName) $($Item.Id) $($Item.Message)" -ForegroundColor Red
             }
             elseif ($Item.LevelDisplayName -eq 'Warning') {
-                Write-Host "$($Item.TimeCreated) $($Item.Id) $($Item.Message)" -ForegroundColor Yellow
+                Write-Host "$($Item.TimeCreated) $($Item.LevelDisplayName) $($Item.Id) $($Item.Message)" -ForegroundColor Yellow
                 
             }
             else {
-                Write-Host "$($Item.TimeCreated) $($Item.Id) $($Item.Message)"
+                Write-Host "$($Item.TimeCreated) $($Item.LevelDisplayName) $($Item.Id) $($Item.Message)"
             }
         }
     }
