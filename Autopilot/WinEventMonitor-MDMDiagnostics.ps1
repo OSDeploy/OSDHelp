@@ -90,7 +90,7 @@ if ($Monitor) {
         #   Get-WinEvent Results
         #================================================
         $Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore
-        $StartTime = [DateTime]::Now.DateTime
+        #$StartTime = [DateTime]::Now.DateTime
         if ($Results) {
             $StartTime = $Results | Select-Object -Last 1 | Select-Object -ExpandProperty TimeCreated
         }
