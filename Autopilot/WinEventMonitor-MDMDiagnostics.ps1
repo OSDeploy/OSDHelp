@@ -16,7 +16,7 @@ $Monitor = $true
 $Results = @()
 $FormatEnumerationLimit = -1
 # This will go back 5 days in the logs.  Adjust as needed
-$StartTime = ((Get-Date).AddDays(- 5)).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ss.ffffffZ')
+$StartTime = (Get-Date).AddDays(- 5)
 $ExcludeEventId = @(200,202,260,263,266,272)
 #================================================
 #   LogName
@@ -51,7 +51,8 @@ $FilterHashtable = @{
 #   Get-WinEvent Results
 #================================================
 $Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore
-$StartTime = ([DateTime]::Now.DateTime).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ss.ffffffZ')
+#$StartTime = [DateTime]::Now.DateTime
+$PostTime = $Results | Select-Object -Last 1 | Select-Object -ExpandProperty TimeCreated
 $Results = $Results | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
 $Results = $Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
 #================================================
@@ -73,8 +74,8 @@ foreach ($Item in $Results) {
 #   Monitor New Events
 #================================================
 if ($Monitor) {
-    Write-Host -ForegroundColor Cyan "Listening ..."
     while ($true) {
+        Write-Host -ForegroundColor Cyan "Listening for events after $PostTime"
         Start-Sleep -Seconds 1 | Out-Null
         #================================================
         #   FilterHashtable
@@ -87,7 +88,7 @@ if ($Monitor) {
         #   Get-WinEvent Results
         #================================================
         $Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore
-        $StartTime = ([DateTime]::Now.DateTime).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ss.ffffffZ')
+        $StartTime = [DateTime]::Now.DateTime
         $Results = $Results | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
         $Results = $Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
         #================================================
