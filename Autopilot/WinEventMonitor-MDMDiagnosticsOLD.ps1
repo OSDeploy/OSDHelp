@@ -17,7 +17,7 @@ $Monitor = $true
 $Results = @()
 $FormatEnumerationLimit = -1
 # This will go back 5 days in the logs.  Adjust as needed
-[DateTime]$StartTime = (Get-Date).AddDays(- 1)
+[DateTime]$StartTime = (Get-Date).AddDays(- 5)
 $ExcludeEventId = @(200,202,260,263,266,272)
 # Remove Line Wrap
 reg add HKCU\Console /v LineWrap /t REG_DWORD /d 0 /f
@@ -53,7 +53,12 @@ $FilterHashtable = @{
 #================================================
 #   Get-WinEvent Results
 #================================================
-$Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
+$Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated
+if ($Results) {
+    [DateTime]$StartTime = $Results | Select-Object -Last 1 | Select-Object -ExpandProperty TimeCreated
+    $StartTime = ($StartTime).AddSeconds(1)
+}
+$Results = $Results | Where-Object {$_.Id -notin $ExcludeEventId}
 $Results = $Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
 #================================================
 #   Display Results
@@ -74,21 +79,30 @@ foreach ($Item in $Results) {
 #   Monitor New Events
 #================================================
 if ($Monitor) {
-    Write-Host -ForegroundColor Cyan "Listening for new events"
+    Write-Host -ForegroundColor Cyan "Listening for events starting $StartTime"
     while ($true) {
         Start-Sleep -Seconds 1 | Out-Null
         #================================================
-        #   Get-WinEvent NewResults
+        #   FilterHashtable
         #================================================
-        $NewResults = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId} | Where-Object {$_.TimeCreated -notin $Results.TimeCreated}
-        if ($NewResults) {
-            $Results += $NewResults
+        $FilterHashtable = @{
+            StartTime = $StartTime
+            LogName = $LogName
         }
-        $NewResults = $NewResults | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
+        #================================================
+        #   Get-WinEvent Results
+        #================================================
+        $Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated
+        if ($Results) {
+            [DateTime]$StartTime = $Results | Select-Object -Last 1 | Select-Object -ExpandProperty TimeCreated
+            $StartTime = ($StartTime).AddSeconds(1)
+        }
+        $Results = $Results | Where-Object {$_.Id -notin $ExcludeEventId}
+        $Results = $Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
         #================================================
         #   Display Results
         #================================================
-        foreach ($Item in $NewResults) {
+        foreach ($Item in $Results) {
             if ($Item.LevelDisplayName -eq 'Error') {
                 Write-Host "$($Item.TimeCreated) $($Item.LevelDisplayName) $($Item.Id) $($Item.Message)" -ForegroundColor Red
             }
