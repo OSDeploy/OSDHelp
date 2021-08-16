@@ -1,5 +1,10 @@
 # OSDHelp Autopilot
 
+- Show-DisplaySettings.ps1
+If you are working in OOBE, I strongly recommend changing the
+Display Scaling to 100%.  Use the following command:
+start ms-settings:display
+
 Register a device in Autopilot
 - Invoke-AutopilotOOBE.ps1
 - Invoke-Get-WindowsAutopilotInfo.ps1
@@ -22,10 +27,3 @@ WinEvent Viewing
 WinEvent Monitoring
 - WinEventMonitor-Autopilot.ps1
 - WinEventMonitor-MDMDiagnostics.ps1
-
-
-Other
-- Show-DisplaySettings.ps1
-If you are working in OOBE, I strongly recommend changing the
-Display Scaling to 100%.  Use the following command:
-start ms-settings:display
