@@ -9,7 +9,7 @@ $host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.size(20
 #   Transcript
 #================================================
 $Transcript = "$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-$Title.log"
-Start-Transcript -Path (Join-Path "$env:SystemRoot\Temp" $Transcript) -ErrorAction Ignore
+Start-Transcript -Path (Join-Path "$env:SystemDrive" $Transcript) -ErrorAction Ignore
 #================================================
 #   Main Variables
 #================================================
