@@ -33,7 +33,16 @@ $Results = $Results | Select-Object TimeCreated, ProviderName, Id, LevelDisplayN
 #Write-Output $Results | Format-Table -HideTableHeaders
 
 foreach ($Item in $Results) {
-    Write-Output "$($Item.TimeCreated) $($Item.Id) $($Item.Message)"
+    if ($Item.LevelDisplayName -eq 'Error') {
+        Write-Host "$($Item.TimeCreated) $($Item.Id) $($Item.Message)" -ForegroundColor Red
+    }
+    elseif ($Item.LevelDisplayName -eq 'Warning') {
+        Write-Host "$($Item.TimeCreated) $($Item.Id) $($Item.Message)" -ForegroundColor Yellow
+        
+    }
+    else {
+        Write-Host "$($Item.TimeCreated) $($Item.Id) $($Item.Message)"
+    }
 }
 #================================================
 #   Monitor
@@ -61,7 +70,16 @@ if ($Monitor) {
         $Results = $Results | Select-Object TimeCreated, ProviderName, Id, LevelDisplayName, @{Name='Message';Expression={ ($_.Message -Split '\n')[0] }}
         #Write-Output $Results | Format-Table -HideTableHeaders
         foreach ($Item in $Results) {
-            Write-Output "$($Item.TimeCreated) $($Item.Id) $($Item.Message)"
+            if ($Item.LevelDisplayName -eq 'Error') {
+                Write-Host "$($Item.TimeCreated) $($Item.Id) $($Item.Message)" -ForegroundColor Red
+            }
+            elseif ($Item.LevelDisplayName -eq 'Warning') {
+                Write-Host "$($Item.TimeCreated) $($Item.Id) $($Item.Message)" -ForegroundColor Yellow
+                
+            }
+            else {
+                Write-Host "$($Item.TimeCreated) $($Item.Id) $($Item.Message)"
+            }
         }
     }
 }
