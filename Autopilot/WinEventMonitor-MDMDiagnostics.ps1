@@ -51,9 +51,11 @@ $FilterHashtable = @{
 #   Get-WinEvent Results
 #================================================
 $Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore
-$StartTime = [DateTime]::Now.DateTime
 if ($Results) {
-    $StartTime = $Results | Select-Object -Last 1 | Select-Object -ExpandProperty TimeCreated
+    $StartTime = [DateTime]::($Results | Select-Object -Last 1 | Select-Object -ExpandProperty TimeCreated).AddSeconds(1)
+}
+else {
+    $StartTime = [DateTime]::Now.DateTime
 }
 $Results = $Results | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
 $Results = $Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
