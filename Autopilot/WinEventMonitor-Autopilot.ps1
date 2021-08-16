@@ -50,9 +50,12 @@ $FilterHashtable = @{
 #================================================
 #   Get-WinEvent Results
 #================================================
-$Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore
-$StartTime = [DateTime]::Now.DateTime
-$Results = $Results | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
+$Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated
+if ($Results) {
+    [DateTime]$StartTime = $Results | Select-Object -Last 1 | Select-Object -ExpandProperty TimeCreated
+    $StartTime = ($StartTime).AddSeconds(1)
+}
+$Results = $Results | Where-Object {$_.Id -notin $ExcludeEventId}
 $Results = $Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
 #================================================
 #   Display Results
@@ -73,7 +76,7 @@ foreach ($Item in $Results) {
 #   Monitor New Events
 #================================================
 if ($Monitor) {
-    Write-Host -ForegroundColor Cyan "Listening ..."
+    Write-Host -ForegroundColor Cyan "Listening for events starting $StartTime"
     while ($true) {
         Start-Sleep -Seconds 1 | Out-Null
         #================================================
@@ -86,9 +89,12 @@ if ($Monitor) {
         #================================================
         #   Get-WinEvent Results
         #================================================
-        $Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore
-        $StartTime = [DateTime]::Now.DateTime
-        $Results = $Results | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
+        $Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated
+        if ($Results) {
+            [DateTime]$StartTime = $Results | Select-Object -Last 1 | Select-Object -ExpandProperty TimeCreated
+            $StartTime = ($StartTime).AddSeconds(1)
+        }
+        $Results = $Results | Where-Object {$_.Id -notin $ExcludeEventId}
         $Results = $Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
         #================================================
         #   Display Results
