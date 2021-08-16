@@ -1,6 +1,7 @@
 #================================================
 #   Initialize
 #================================================
+$host.ui.RawUI.WindowTitle = 'MDM Event Monitor'
 $Monitor = $true
 $Results = @()
 $StartTime = (Get-Date).AddDays(- 2)
