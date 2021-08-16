@@ -9,6 +9,7 @@ $host.ui.RawUI.WindowTitle = $Title
 #================================================
 $Transcript = "$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-$Title.log"
 Start-Transcript -Path (Join-Path "$env:SystemRoot\Temp" $Transcript) -ErrorAction Ignore
+$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.size(2000,2000)
 #================================================
 #   Main Variables
 #================================================

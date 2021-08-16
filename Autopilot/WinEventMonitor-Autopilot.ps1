@@ -4,6 +4,7 @@
 #================================================
 $Title = 'WinEventMonitor-Autopilot'
 $host.ui.RawUI.WindowTitle = $Title
+$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.size(2000,2000)
 #================================================
 #   Transcript
 #================================================
