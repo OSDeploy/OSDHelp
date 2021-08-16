@@ -10,7 +10,7 @@ $host.ui.RawUI.WindowTitle = $Title
 $FormatEnumerationLimit = -1
 # This will go back 5 days in the logs.  Adjust as needed
 $StartTime = (Get-Date).AddDays(- 5)
-$ExcludeEventId = @(200,202,260,263,272)
+$ExcludeEventId = @(200,202,260,263,266,272)
 #================================================
 #   LogName
 #   These are the WinEvent logs to monitor

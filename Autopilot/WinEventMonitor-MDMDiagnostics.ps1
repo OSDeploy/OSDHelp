@@ -17,14 +17,14 @@ $Results = @()
 $FormatEnumerationLimit = -1
 # This will go back 5 days in the logs.  Adjust as needed
 $StartTime = (Get-Date).AddDays(- 5)
-$ExcludeEventId = @(200,202,260,263,272)
+$ExcludeEventId = @(200,202,260,263,266,272)
 #================================================
 #   LogName
 #   These are the WinEvent logs to monitor
 #================================================
 $LogName = @(
     'Microsoft-Windows-AAD/Operational'
-    'Microsoft-Windows-AppXDeploymentServer/Operational'
+    #'Microsoft-Windows-AppXDeploymentServer/Operational'
     'Microsoft-Windows-AssignedAccess/Admin'
     'Microsoft-Windows-AssignedAccess/Operational'
     'Microsoft-Windows-AssignedAccessBroker/Admin'
