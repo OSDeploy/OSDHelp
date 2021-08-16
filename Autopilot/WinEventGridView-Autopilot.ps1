@@ -2,7 +2,7 @@
 #================================================
 #   Initialize
 #================================================
-$Title = 'WinEventGridView-MDMDiagnostics'
+$Title = 'WinEventGridView-Autopilot'
 $host.ui.RawUI.WindowTitle = $Title
 #================================================
 #   Main Variables
@@ -16,22 +16,22 @@ $ExcludeEventId = @(200,202,260,263,272)
 #   These are the WinEvent logs to monitor
 #================================================
 $LogName = @(
-    'Microsoft-Windows-AAD/Operational'
-    'Microsoft-Windows-AppXDeploymentServer/Operational'
-    'Microsoft-Windows-AssignedAccess/Admin'
-    'Microsoft-Windows-AssignedAccess/Operational'
-    'Microsoft-Windows-AssignedAccessBroker/Admin'
-    'Microsoft-Windows-AssignedAccessBroker/Operational'
-    'Microsoft-Windows-Crypto-NCrypt/Operational'
-    'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Admin'
+    #'Microsoft-Windows-AAD/Operational'
+    #'Microsoft-Windows-AppXDeploymentServer/Operational'
+    #'Microsoft-Windows-AssignedAccess/Admin'
+    #'Microsoft-Windows-AssignedAccess/Operational'
+    #'Microsoft-Windows-AssignedAccessBroker/Admin'
+    #'Microsoft-Windows-AssignedAccessBroker/Operational'
+    #'Microsoft-Windows-Crypto-NCrypt/Operational'
+    #'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Admin'
     #'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Debug'
-    'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Operational'
+    #'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Operational'
     'Microsoft-Windows-ModernDeployment-Diagnostics-Provider/Autopilot'
-    'Microsoft-Windows-ModernDeployment-Diagnostics-Provider/ManagementService'
-    'Microsoft-Windows-Provisioning-Diagnostics-Provider/Admin'
-    'Microsoft-Windows-Shell-Core/Operational'
-    'Microsoft-Windows-Time-Service/Operational'
-    'Microsoft-Windows-User Device Registration/Admin'
+    #'Microsoft-Windows-ModernDeployment-Diagnostics-Provider/ManagementService'
+    #'Microsoft-Windows-Provisioning-Diagnostics-Provider/Admin'
+    #'Microsoft-Windows-Shell-Core/Operational'
+    #'Microsoft-Windows-Time-Service/Operational'
+    #'Microsoft-Windows-User Device Registration/Admin'
 )
 #================================================
 #   FilterHashtable

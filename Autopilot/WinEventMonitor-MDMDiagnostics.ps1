@@ -4,6 +4,9 @@
 #================================================
 $Title = 'WinEventMonitor-MDMDiagnostics'
 $host.ui.RawUI.WindowTitle = $Title
+#================================================
+#   Transcript
+#================================================
 $Transcript = "$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-$Title.log"
 Start-Transcript -Path (Join-Path "$env:SystemRoot\Temp" $Transcript) -ErrorAction Ignore
 #================================================
@@ -21,11 +24,14 @@ $ExcludeEventId = @(200,202,260,263,272)
 #================================================
 $LogName = @(
     'Microsoft-Windows-AAD/Operational'
+    'Microsoft-Windows-AppXDeploymentServer/Operational'
     'Microsoft-Windows-AssignedAccess/Admin'
     'Microsoft-Windows-AssignedAccess/Operational'
     'Microsoft-Windows-AssignedAccessBroker/Admin'
     'Microsoft-Windows-AssignedAccessBroker/Operational'
+    'Microsoft-Windows-Crypto-NCrypt/Operational'
     'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Admin'
+    #'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Debug'
     'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Operational'
     'Microsoft-Windows-ModernDeployment-Diagnostics-Provider/Autopilot'
     'Microsoft-Windows-ModernDeployment-Diagnostics-Provider/ManagementService'
@@ -47,7 +53,7 @@ $FilterHashtable = @{
 $Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore
 $StartTime = [DateTime]::Now.DateTim
 $Results = $Results | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
-$Results = $Results | Select-Object TimeCreated, ProviderName, Id, LevelDisplayName, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
+$Results = $Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
 #================================================
 #   Display Results
 #================================================
@@ -83,7 +89,7 @@ if ($Monitor) {
         $Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore
         $StartTime = [DateTime]::Now.DateTim
         $Results = $Results | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
-        $Results = $Results | Select-Object TimeCreated, ProviderName, Id, LevelDisplayName, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
+        $Results = $Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
         #================================================
         #   Display Results
         #================================================
