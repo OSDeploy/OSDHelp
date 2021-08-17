@@ -19,6 +19,7 @@ It's very important that you start here first
 - Diagnostic_MDMDiagnosticsTool.ps1
 - Diagnostic_MDMDiagnosticsToolAutopilot.ps1
 - Diagnostic_MDMDiagnosticsToolAutopilotTpm.ps1
+- Diagnostic_TestAutopilotNetwork.ps1
 
 # Display Events in PowerShell Gridview
 - EventGrid-Autopilot.ps1
