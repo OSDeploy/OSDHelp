@@ -5,6 +5,16 @@
 $Title = 'EventGrid_MDMDiagnostics'
 $host.ui.RawUI.WindowTitle = $Title
 #================================================
+#   Temp
+#================================================
+if (!(Test-Path "$env:SystemDrive\Temp")) {
+    New-Item -Path "$env:SystemDrive\Temp" -ItemType Directory -Force
+}
+#================================================
+#   Export
+#================================================
+$ExportClixml = "$env:SystemDrive\Temp\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-$Title.clixml"
+#================================================
 #   Main Variables
 #================================================
 $FormatEnumerationLimit = -1
@@ -45,4 +55,4 @@ $FilterHashtable = @{
 #================================================
 $Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore
 $Results = $Results | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
-$Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id,Message | Out-GridView
+$Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id,Message | Out-GridView -Title "Export selection to $ExportClixml" -PassThru | Export-Clixml -Path $ExportClixml -Force
