@@ -1,2 +1,17 @@
-if (!(Test-Path 'C:\Temp')) {New-Item -Path 'C:\Temp' -ItemType Directory -Force}
-Start-Process MDMDiagnosticsTool.exe -ArgumentList "-area Autopilot;TPM","-cab C:\Temp\MDMAutopilotTpm.cab"
+#Requires -RunAsAdministrator
+#================================================
+#   Initialize
+#================================================
+$Title = 'Diagnostic_MDMDiagnosticsToolAutopilotTpm'
+$host.ui.RawUI.WindowTitle = $Title
+$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.size(2000,2000)
+#================================================
+#   Temp
+#================================================
+if (!(Test-Path "$env:SystemDrive\Temp")) {
+    New-Item -Path "$env:SystemDrive\Temp" -ItemType Directory -Force
+}
+#================================================
+#   Run
+#================================================
+Start-Process MDMDiagnosticsTool.exe -ArgumentList "-area Autopilot;TPM","-cab $env:SystemDrive\MDMAutopilotTpm.cab"

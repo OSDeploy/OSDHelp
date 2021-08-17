@@ -2,7 +2,7 @@
 #================================================
 #   Initialize
 #================================================
-$Title = 'WinEventGridView-TimeService'
+$Title = 'EventGrid_TimeService'
 $host.ui.RawUI.WindowTitle = $Title
 #================================================
 #   Main Variables

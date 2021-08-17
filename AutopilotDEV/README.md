@@ -1,9 +1,10 @@
 # OSDHelp Autopilot
 This contains a collection of scripts for Autopilot
+If something should be added, let me know!
 
-# First Steps
-Make sure you give this a good read first
-- 1_FirstStep.ps1
+# Run Me First
+It's very important that you start here first
+- 0_RunMeFirst.ps1
 
 # Register a device in Autopilot
 - Register_AutopilotOOBE.ps1

@@ -2,7 +2,7 @@
 #================================================
 #   Initialize
 #================================================
-$Title = 'WinEventGridView-MDMDiagnostics'
+$Title = 'EventGrid_MDMDiagnostics'
 $host.ui.RawUI.WindowTitle = $Title
 #================================================
 #   Main Variables

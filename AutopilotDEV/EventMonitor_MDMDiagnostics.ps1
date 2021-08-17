@@ -2,14 +2,20 @@
 #================================================
 #   Initialize
 #================================================
-$Title = 'WinEventMonitor-MDMDiagnostics'
+$Title = 'EventMonitor_MDMDiagnostics'
 $host.ui.RawUI.WindowTitle = $Title
 $host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.size(2000,2000)
+#================================================
+#   Temp
+#================================================
+if (!(Test-Path "$env:SystemDrive\Temp")) {
+    New-Item -Path "$env:SystemDrive\Temp" -ItemType Directory -Force
+}
 #================================================
 #   Transcript
 #================================================
 $Transcript = "$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-$Title.log"
-Start-Transcript -Path (Join-Path "$env:SystemDrive" $Transcript) -ErrorAction Ignore
+Start-Transcript -Path (Join-Path "$env:SystemDrive\Temp" $Transcript) -ErrorAction Ignore
 #================================================
 #   Main Variables
 #================================================

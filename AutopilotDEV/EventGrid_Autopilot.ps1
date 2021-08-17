@@ -2,7 +2,7 @@
 #================================================
 #   Initialize
 #================================================
-$Title = 'WinEventGridView-Autopilot'
+$Title = 'EventGrid_Autopilot'
 $host.ui.RawUI.WindowTitle = $Title
 #================================================
 #   Main Variables
