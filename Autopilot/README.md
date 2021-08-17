@@ -27,5 +27,5 @@ It's very important that you start here first
 - EventGrid-TimeService.ps1
 
 # List Events in Console with Monitoring for new Events
-- EventMonitor-Autopilot.ps1
-- EventMonitor-MDMDiagnostics.ps1
+- EventWatch-Autopilot.ps1
+- EventWatch-MDMDiagnostics.ps1

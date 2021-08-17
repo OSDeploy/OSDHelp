@@ -1,6 +1,6 @@
 #================================================
 #   Disable Console Line Wrap
-#   If you plan on using EventMonitor, your lines can get
+#   If you plan on using EventWatch, your lines can get
 #   very long. To keep things straight, turn off Line Wrap
 #   with this Registry setting
 #================================================
