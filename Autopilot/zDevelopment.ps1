@@ -68,14 +68,14 @@ $Results | Export-Clixml -Path $Clixml
 #================================================
 foreach ($Item in $Results) {
     if ($Item.LevelDisplayName -eq 'Error') {
-        Write-Host "$($Item.TimeCreated) `t $($Item.LevelDisplayName) `t $($Item.Id) `t $($Item.Message)" -ForegroundColor Red
+        Write-Host "$($Item.TimeCreated) `tERROR `t$($Item.Id) `t$($Item.Message)" -ForegroundColor Red
     }
     elseif ($Item.LevelDisplayName -eq 'Warning') {
-        Write-Host "$($Item.TimeCreated) `t $($Item.LevelDisplayName) `t $($Item.Id) `t $($Item.Message)" -ForegroundColor Yellow
+        Write-Host "$($Item.TimeCreated) `tWARN `t$($Item.Id) `t$($Item.Message)" -ForegroundColor Yellow
         
     }
     else {
-        Write-Host "$($Item.TimeCreated) `t $($Item.LevelDisplayName) `t $($Item.Id) `t $($Item.Message)"
+        Write-Host "$($Item.TimeCreated) `tINFO `t$($Item.Id) `t$($Item.Message)" -ForegroundColor LightGray
     }
 }
 #================================================
@@ -100,14 +100,14 @@ if ($Monitor) {
         #================================================
         foreach ($Item in $NewResults) {
             if ($Item.LevelDisplayName -eq 'Error') {
-                Write-Host "$($Item.TimeCreated) `t $($Item.LevelDisplayName) `t $($Item.Id) `t $($Item.Message)" -ForegroundColor Red
+                Write-Host "$($Item.TimeCreated) `tERROR `t$($Item.Id) `t$($Item.Message)" -ForegroundColor Red
             }
             elseif ($Item.LevelDisplayName -eq 'Warning') {
-                Write-Host "$($Item.TimeCreated) `t $($Item.LevelDisplayName) `t $($Item.Id) `t $($Item.Message)" -ForegroundColor Yellow
+                Write-Host "$($Item.TimeCreated) `tWARN `t$($Item.Id) `t$($Item.Message)" -ForegroundColor Yellow
                 
             }
             else {
-                Write-Host "$($Item.TimeCreated) `t $($Item.LevelDisplayName) `t $($Item.Id) `t $($Item.Message)"
+                Write-Host "$($Item.TimeCreated) `tINFO `t$($Item.Id) `t$($Item.Message)" -ForegroundColor LightGray
             }
         }
     }
