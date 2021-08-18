@@ -28,8 +28,8 @@ $FormatEnumerationLimit = -1
 # This will go back 1 days in the logs.  Adjust as needed
 [DateTime]$StartTime = (Get-Date).AddDays(- 1)
 
-$InfoWhite = @(62406)
-$InfoCyan = @(62402)
+$InfoWhite = @()
+$InfoCyan = @(62402,62406)
 $InfoBlue = @()
 $InfoDarkBlue = @()
 
