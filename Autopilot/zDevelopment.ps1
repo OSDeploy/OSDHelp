@@ -95,15 +95,17 @@ foreach ($Item in $Results) {
     }
     elseif ($Item.LevelDisplayName -eq 'Warning') {
         Write-Host "$($Item.TimeCreated) WARN :$($Item.Id)`t$($Item.Message)" -ForegroundColor Yellow
-        
+    }
+    elseif ($Item.Message -match 'fail') {
+        Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Red
+    }
+    elseif ($Item.Message -like "Autopilot*") {
+        Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Cyan
     }
     elseif ($Item.Id -in $InfoWhite) {
         Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor White
     }
     elseif ($Item.Id -in $InfoCyan) {
-        Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Cyan
-    }
-    elseif ($Item.Message -like "Autopilot*") {
         Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Cyan
     }
     elseif ($Item.Id -in $InfoBlue) {
@@ -142,15 +144,17 @@ if ($Monitor) {
             }
             elseif ($Item.LevelDisplayName -eq 'Warning') {
                 Write-Host "$($Item.TimeCreated) WARN :$($Item.Id)`t$($Item.Message)" -ForegroundColor Yellow
-                
+            }
+            elseif ($Item.Message -match 'fail') {
+                Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Red
+            }
+            elseif ($Item.Message -like "Autopilot*") {
+                Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Cyan
             }
             elseif ($Item.Id -in $InfoWhite) {
                 Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor White
             }
             elseif ($Item.Id -in $InfoCyan) {
-                Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Cyan
-            }
-            elseif ($Item.Message -like "Autopilot*") {
                 Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Cyan
             }
             elseif ($Item.Id -in $InfoBlue) {
