@@ -59,12 +59,7 @@ $FilterHashtable = @{
 #================================================
 #   Get-WinEvent Results
 #================================================
-#$Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
-#$Results = $Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
-#================================================
-#   Get-WinEvent Results
-#================================================
-$Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Where-Object {$_.Id -notin $ExcludeEventId}
+$Results = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId}
 $Results = $Results | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
 $Clixml = "$env:SystemDrive\Temp\$((Get-Date).ToString('yyyy-MM-dd-HHmmss'))-Events.log"
 $Results | Export-Clixml -Path $Clixml
@@ -93,8 +88,7 @@ if ($Monitor) {
         #================================================
         #   Get-WinEvent NewResults
         #================================================
-        $NewResults = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Where-Object {$_.Id -notin $ExcludeEventId} | Where-Object {$_.TimeCreated -notin $Results.TimeCreated}
-        #$NewResults = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId} | Where-Object {$_.TimeCreated -notin $Results.TimeCreated}
+        $NewResults = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId} | Where-Object {$_.TimeCreated -notin $Results.TimeCreated}
         
         if ($NewResults) {
             $Results += $NewResults
