@@ -68,21 +68,20 @@ $Results | Export-Clixml -Path $Clixml
 #================================================
 foreach ($Item in $Results) {
     if ($Item.LevelDisplayName -eq 'Error') {
-        Write-Host "$($Item.TimeCreated) $($Item.LevelDisplayName) $($Item.Id) $($Item.Message)" -ForegroundColor Red
+        Write-Host "$($Item.TimeCreated) `t $($Item.LevelDisplayName) `t $($Item.Id) `t $($Item.Message)" -ForegroundColor Red
     }
     elseif ($Item.LevelDisplayName -eq 'Warning') {
-        Write-Host "$($Item.TimeCreated) $($Item.LevelDisplayName) $($Item.Id) $($Item.Message)" -ForegroundColor Yellow
+        Write-Host "$($Item.TimeCreated) `t $($Item.LevelDisplayName) `t $($Item.Id) `t $($Item.Message)" -ForegroundColor Yellow
         
     }
     else {
-        Write-Host "$($Item.TimeCreated) $($Item.LevelDisplayName) $($Item.Id) $($Item.Message)"
+        Write-Host "$($Item.TimeCreated) `t $($Item.LevelDisplayName) `t $($Item.Id) `t $($Item.Message)"
     }
 }
 #================================================
 #   Monitor New Events
 #================================================
 if ($Monitor) {
-    Write-Host -ForegroundColor Cyan "Listening for new events"
     while ($true) {
         Start-Sleep -Seconds 1 | Out-Null
         #================================================
@@ -91,6 +90,7 @@ if ($Monitor) {
         $NewResults = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId} | Where-Object {$_.TimeCreated -notin $Results.TimeCreated}
         
         if ($NewResults) {
+            Write-Host -ForegroundColor Cyan "New Events $((Get-Date).ToString('HHmmss'))"
             $Results += $NewResults
             $NewResults | Export-Clixml -Path $Clixml
         }
