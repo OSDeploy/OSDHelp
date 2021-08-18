@@ -22,9 +22,27 @@ Start-Transcript -Path (Join-Path "$env:SystemDrive\Temp" $Transcript) -ErrorAct
 $Monitor = $true
 $Results = @()
 $FormatEnumerationLimit = -1
-# This will go back 5 days in the logs.  Adjust as needed
+# This will go back 1 days in the logs.  Adjust as needed
 [DateTime]$StartTime = (Get-Date).AddDays(- 1)
-$ExcludeEventId = @(3,200,202,260,263,266,272,28115)
+
+$CyanEvents = @(153,162,164,702,704)
+$DarkEvents = @(20,261,62171)
+
+if ($Denoise) {
+    $ExcludeEventId = @(3,9,10,11,90,91)
+    $ExcludeEventId += @(101,104,106,108,110,111,112,144)
+    $ExcludeEventId += @(200,202,257,258,259,260,263,265,266,272)
+    $ExcludeEventId += @(507,509,510,511,512,513,514,516,518,520,522,524,525)
+    $ExcludeEventId += @(813)
+    $ExcludeEventId += @(1000,1001,1100,1101,1102,1709)
+    $ExcludeEventId += @(28017,28018,28019,28032,28115,28125)
+    $ExcludeEventId += @(62144,62170,62460)
+    $ExcludeEventId += @(705,1007)
+}
+else {
+    $ExcludeEventId = @(200,202,260,263,266,272)
+}
+
 # Remove Line Wrap
 reg add HKCU\Console /v LineWrap /t REG_DWORD /d 0 /f
 #================================================
@@ -74,6 +92,18 @@ foreach ($Item in $Results) {
         Write-Host "$($Item.TimeCreated)`tWARN:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Yellow
         
     }
+    elseif ($Item.Id -in $DarkEvents) {
+        Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor DarkGray
+    }
+    elseif ($Item.Message -like "CloudExperienceHost*") {
+        Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Magenta
+    }
+    elseif ($Item.Message -like "AutopilotManager*") {
+        Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Green
+    }
+    elseif ($Item.Id -in $CyanEvents) {
+        Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Cyan
+    }
     else {
         Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Gray
     }
@@ -105,6 +135,18 @@ if ($Monitor) {
             elseif ($Item.LevelDisplayName -eq 'Warning') {
                 Write-Host "$($Item.TimeCreated)`tWARN:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Yellow
                 
+            }
+            elseif ($Item.Id -in $DarkEvents) {
+                Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor DarkGray
+            }
+            elseif ($Item.Message -like "CloudExperienceHost*") {
+                Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Magenta
+            }
+            elseif ($Item.Message -like "AutopilotManager*") {
+                Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Green
+            }
+            elseif ($Item.Id -in $CyanEvents) {
+                Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Cyan
             }
             else {
                 Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Gray
