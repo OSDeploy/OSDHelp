@@ -24,7 +24,7 @@ $Results = @()
 $FormatEnumerationLimit = -1
 # This will go back 5 days in the logs.  Adjust as needed
 [DateTime]$StartTime = (Get-Date).AddDays(- 1)
-$ExcludeEventId = @(200,202,260,263,266,272)
+$ExcludeEventId = @(3,200,202,260,263,266,272,28115)
 # Remove Line Wrap
 reg add HKCU\Console /v LineWrap /t REG_DWORD /d 0 /f
 #================================================
@@ -33,7 +33,7 @@ reg add HKCU\Console /v LineWrap /t REG_DWORD /d 0 /f
 #================================================
 $LogName = @(
     'Microsoft-Windows-AAD/Operational'
-    'Microsoft-Windows-AppXDeploymentServer/Operational'
+    #'Microsoft-Windows-AppXDeploymentServer/Operational'
     'Microsoft-Windows-AssignedAccess/Admin'
     'Microsoft-Windows-AssignedAccess/Operational'
     'Microsoft-Windows-AssignedAccessBroker/Admin'
@@ -68,14 +68,14 @@ $Results | Export-Clixml -Path $Clixml
 #================================================
 foreach ($Item in $Results) {
     if ($Item.LevelDisplayName -eq 'Error') {
-        Write-Host "$($Item.TimeCreated) `tERROR `t$($Item.Id) `t$($Item.Message)" -ForegroundColor Red
+        Write-Host "$($Item.TimeCreated)`tERROR:$($Item.Id)  `t$($Item.Message)" -ForegroundColor Red
     }
     elseif ($Item.LevelDisplayName -eq 'Warning') {
-        Write-Host "$($Item.TimeCreated) `tWARN `t$($Item.Id) `t$($Item.Message)" -ForegroundColor Yellow
+        Write-Host "$($Item.TimeCreated)`tWARN:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Yellow
         
     }
     else {
-        Write-Host "$($Item.TimeCreated) `tINFO `t$($Item.Id) `t$($Item.Message)" -ForegroundColor LightGray
+        Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Gray
     }
 }
 #================================================
@@ -100,14 +100,14 @@ if ($Monitor) {
         #================================================
         foreach ($Item in $NewResults) {
             if ($Item.LevelDisplayName -eq 'Error') {
-                Write-Host "$($Item.TimeCreated) `tERROR `t$($Item.Id) `t$($Item.Message)" -ForegroundColor Red
+                Write-Host "$($Item.TimeCreated)`tERROR:$($Item.Id)  `t$($Item.Message)" -ForegroundColor Red
             }
             elseif ($Item.LevelDisplayName -eq 'Warning') {
-                Write-Host "$($Item.TimeCreated) `tWARN `t$($Item.Id) `t$($Item.Message)" -ForegroundColor Yellow
+                Write-Host "$($Item.TimeCreated)`tWARN:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Yellow
                 
             }
             else {
-                Write-Host "$($Item.TimeCreated) `tINFO `t$($Item.Id) `t$($Item.Message)" -ForegroundColor LightGray
+                Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Gray
             }
         }
     }
