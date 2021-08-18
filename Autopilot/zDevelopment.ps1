@@ -28,7 +28,7 @@ $FormatEnumerationLimit = -1
 # This will go back 1 days in the logs.  Adjust as needed
 [DateTime]$StartTime = (Get-Date).AddDays(- 1)
 
-$BrightEvents = @(153,162,164,702,704)
+$BrightEvents = @()
 $DarkEvents = @(20,261,62171)
 
 if ($Denoise) {
@@ -89,26 +89,26 @@ $Results | Export-Clixml -Path $Clixml
 #================================================
 foreach ($Item in $Results) {
     if ($Item.LevelDisplayName -eq 'Error') {
-        Write-Host "$($Item.TimeCreated)`tERROR:$($Item.Id)  `t$($Item.Message)" -ForegroundColor Red
+        Write-Host "$($Item.TimeCreated) ERROR:$($Item.Id)`t$($Item.Message)" -ForegroundColor Red
     }
     elseif ($Item.LevelDisplayName -eq 'Warning') {
-        Write-Host "$($Item.TimeCreated)`tWARN:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Yellow
+        Write-Host "$($Item.TimeCreated) WARN :$($Item.Id)`t$($Item.Message)" -ForegroundColor Yellow
         
     }
     elseif ($Item.Id -in $BrightEvents) {
-        Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Cyan
+        Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Cyan
     }
     elseif ($Item.Id -in $DarkEvents) {
-        Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor DarkGray
+        Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor DarkGray
     }
     elseif ($Item.Message -like "Autopilot*") {
-        Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Cyan
+        Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Cyan
     }
     elseif ($Item.Message -like "CloudExperienceHost*") {
-        Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor DarkGray
+        Write-Host "$($Item.TimeCreated) INFO:$($Item.Id)`t$($Item.Message)" -ForegroundColor DarkCyan
     }
     else {
-        Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor DarkGray
+        Write-Host "$($Item.TimeCreated) INFO:$($Item.Id)`t$($Item.Message)" -ForegroundColor DarkGray
     }
 }
 #================================================
@@ -123,7 +123,7 @@ if ($Monitor) {
         $NewResults = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId} | Where-Object {$_.TimeCreated -notin $Results.TimeCreated}
         
         if ($NewResults) {
-            Write-Host -ForegroundColor Cyan "New Events $((Get-Date).ToString('HHmmss'))"
+            Write-Host -ForegroundColor Cyan "New Events $((Get-Date).ToString('HH:mm:ss'))"
             $Results += $NewResults
             $NewResults | Export-Clixml -Path $Clixml
         }
@@ -133,26 +133,26 @@ if ($Monitor) {
         #================================================
         foreach ($Item in $NewResults) {
             if ($Item.LevelDisplayName -eq 'Error') {
-                Write-Host "$($Item.TimeCreated)`tERROR:$($Item.Id)  `t$($Item.Message)" -ForegroundColor Red
+                Write-Host "$($Item.TimeCreated) ERROR:$($Item.Id)`t$($Item.Message)" -ForegroundColor Red
             }
             elseif ($Item.LevelDisplayName -eq 'Warning') {
-                Write-Host "$($Item.TimeCreated)`tWARN:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Yellow
+                Write-Host "$($Item.TimeCreated) WARN :$($Item.Id)`t$($Item.Message)" -ForegroundColor Yellow
                 
             }
             elseif ($Item.Id -in $BrightEvents) {
-                Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Cyan
+                Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Cyan
             }
             elseif ($Item.Id -in $DarkEvents) {
-                Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor DarkGray
+                Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor DarkGray
             }
             elseif ($Item.Message -like "Autopilot*") {
-                Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor Cyan
+                Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Cyan
             }
             elseif ($Item.Message -like "CloudExperienceHost*") {
-                Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor DarkGray
+                Write-Host "$($Item.TimeCreated) INFO:$($Item.Id)`t$($Item.Message)" -ForegroundColor DarkCyan
             }
             else {
-                Write-Host "$($Item.TimeCreated)`tINFO:$($Item.Id)   `t$($Item.Message)" -ForegroundColor DarkGray
+                Write-Host "$($Item.TimeCreated) INFO:$($Item.Id)`t$($Item.Message)" -ForegroundColor DarkGray
             }
         }
     }
