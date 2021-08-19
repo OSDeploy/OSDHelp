@@ -4,6 +4,7 @@ RepoFolder parameter was not specified
 Use one of the following commands:
 
 OSDHelp Autopilot
+OSDHelp AutopilotOOBE
 OSDHelp EventLog
 OSDHelp Hardware
 OSDHelp MSSettings
