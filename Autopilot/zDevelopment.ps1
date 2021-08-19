@@ -128,11 +128,9 @@ if ($Monitor) {
         #   Get-WinEvent NewResults
         #================================================
         $NewResults = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId} | Where-Object {$_.TimeCreated -notin $Results.TimeCreated}
-        
         if ($NewResults) {
-            Write-Host -ForegroundColor Cyan "New Events $((Get-Date).ToString('HH:mm:ss'))"
             $Results += $NewResults
-            $NewResults | Export-Clixml -Path $Clixml
+            $Results | Export-Clixml -Path $Clixml
         }
         $NewResults = $NewResults | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
         #================================================
