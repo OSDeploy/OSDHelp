@@ -45,7 +45,7 @@ else {
     $ExcludeEventId += @(1000,1001,1100,1101,1102,1709)
     $ExcludeEventId += @(28017,28018,28019,28032,28115,28125)
     $ExcludeEventId += @(62144,62170,62460)
-    $ExcludeEventId += @(705,1007)
+    $ExcludeEventId += @(135,141,264,523,705,1007)
 }
 
 # Remove Line Wrap
