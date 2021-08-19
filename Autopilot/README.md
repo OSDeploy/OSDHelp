@@ -26,6 +26,7 @@ It's very important that you start here first
 - EventGrid-MDMDiagnostics.ps1
 - EventGrid-TimeService.ps1
 
-# List Events in Console with Monitoring for new Events
-- EventWatch-Autopilot.ps1
-- EventWatch-MDMDiagnostics.ps1
+# Watch Events in Console (Monitoring)
+- Watch Events Autopilot.ps1
+- Watch Events MDMDiagnostics.ps1
+- Watch Events MDMDiagnostics Full.ps1

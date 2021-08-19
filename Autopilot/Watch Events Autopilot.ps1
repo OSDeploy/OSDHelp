@@ -1,9 +1,8 @@
 #Requires -RunAsAdministrator
-$Denoise = $true
 #================================================
 #   Initialize
 #================================================
-$Title = 'EventWatch_MDMDiagnostics'
+$Title = 'Watch Events MDMDiagnostics Full'
 $host.ui.RawUI.WindowTitle = $Title
 $host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.size(2000,2000)
 $host.ui.RawUI.BackgroundColor = ($bckgrnd = 'Black')
@@ -33,7 +32,10 @@ $InfoCyan = @(62402,62406)
 $InfoBlue = @()
 $InfoDarkBlue = @()
 
-if ($Denoise) {
+if ($Full) {
+    $ExcludeEventId = @()
+}
+else {
     $ExcludeEventId = @(3,9,10,11,90,91)
     $ExcludeEventId += @(101,104,106,108,110,111,112,144)
     $ExcludeEventId += @(200,202,257,258,259,260,263,265,266,272)
@@ -44,9 +46,6 @@ if ($Denoise) {
     $ExcludeEventId += @(62144,62170,62460)
     $ExcludeEventId += @(705,1007)
 }
-else {
-    $ExcludeEventId = @(200,202,260,263,266,272)
-}
 
 # Remove Line Wrap
 reg add HKCU\Console /v LineWrap /t REG_DWORD /d 0 /f
@@ -55,22 +54,22 @@ reg add HKCU\Console /v LineWrap /t REG_DWORD /d 0 /f
 #   These are the WinEvent logs to monitor
 #================================================
 $LogName = @(
-    'Microsoft-Windows-AAD/Operational'
+    #'Microsoft-Windows-AAD/Operational'
     #'Microsoft-Windows-AppXDeploymentServer/Operational'
-    'Microsoft-Windows-AssignedAccess/Admin'
-    'Microsoft-Windows-AssignedAccess/Operational'
-    'Microsoft-Windows-AssignedAccessBroker/Admin'
-    'Microsoft-Windows-AssignedAccessBroker/Operational'
-    'Microsoft-Windows-Crypto-NCrypt/Operational'
-    'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Admin'
+    #'Microsoft-Windows-AssignedAccess/Admin'
+    #'Microsoft-Windows-AssignedAccess/Operational'
+    #'Microsoft-Windows-AssignedAccessBroker/Admin'
+    #'Microsoft-Windows-AssignedAccessBroker/Operational'
+    #'Microsoft-Windows-Crypto-NCrypt/Operational'
+    #'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Admin'
     #'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Debug'
-    'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Operational'
+    #'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Operational'
     'Microsoft-Windows-ModernDeployment-Diagnostics-Provider/Autopilot'
-    'Microsoft-Windows-ModernDeployment-Diagnostics-Provider/ManagementService'
-    'Microsoft-Windows-Provisioning-Diagnostics-Provider/Admin'
-    'Microsoft-Windows-Shell-Core/Operational'
-    'Microsoft-Windows-Time-Service/Operational'
-    'Microsoft-Windows-User Device Registration/Admin'
+    #'Microsoft-Windows-ModernDeployment-Diagnostics-Provider/ManagementService'
+    #'Microsoft-Windows-Provisioning-Diagnostics-Provider/Admin'
+    #'Microsoft-Windows-Shell-Core/Operational'
+    #'Microsoft-Windows-Time-Service/Operational'
+    #'Microsoft-Windows-User Device Registration/Admin'
 )
 #================================================
 #   FilterHashtable
@@ -96,7 +95,7 @@ foreach ($Item in $Results) {
     elseif ($Item.LevelDisplayName -eq 'Warning') {
         Write-Host "$($Item.TimeCreated) WARN :$($Item.Id)`t$($Item.Message)" -ForegroundColor Yellow
     }
-    elseif ($Item.Message -match 'fail') {
+    elseif (($Item.Message -match 'fail') -or ($Item.Message -match 'empty profile')) {
         Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Red
     }
     elseif ($Item.Message -like "Autopilot*") {
@@ -122,15 +121,17 @@ foreach ($Item in $Results) {
 #   Monitor New Events
 #================================================
 if ($Monitor) {
+    Write-Host -ForegroundColor Cyan "Listening for new events"
     while ($true) {
-        Start-Sleep -Seconds 1 | Out-Null
+        Start-Sleep -Seconds 10 | Out-Null
         #================================================
         #   Get-WinEvent NewResults
         #================================================
+        $NewResults = @()
         $NewResults = Get-WinEvent -FilterHashtable $FilterHashtable -ErrorAction Ignore | Sort-Object TimeCreated | Where-Object {$_.Id -notin $ExcludeEventId} | Where-Object {$_.TimeCreated -notin $Results.TimeCreated}
         if ($NewResults) {
-            $Results += $NewResults
-            $Results | Export-Clixml -Path $Clixml
+            [array]$Results += [array]$NewResults
+            [array]$Results | Export-Clixml -Path $Clixml
         }
         $NewResults = $NewResults | Select-Object TimeCreated,LevelDisplayName,LogName,Id, @{Name='Message';Expression={ ($_.Message -Split '\n')[0]}}
         #================================================
@@ -143,7 +144,7 @@ if ($Monitor) {
             elseif ($Item.LevelDisplayName -eq 'Warning') {
                 Write-Host "$($Item.TimeCreated) WARN :$($Item.Id)`t$($Item.Message)" -ForegroundColor Yellow
             }
-            elseif ($Item.Message -match 'fail') {
+            elseif (($Item.Message -match 'fail') -or ($Item.Message -match 'empty profile')) {
                 Write-Host "$($Item.TimeCreated) INFO :$($Item.Id)`t$($Item.Message)" -ForegroundColor Red
             }
             elseif ($Item.Message -like "Autopilot*") {
