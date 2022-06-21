@@ -1,4 +1,4 @@
-#Edit-OSDCloud.winpe
+#Edit-OSDCloudWinPE
 
 Learn more about Edit-OSDCloud.winpe with these OSDPad scripts
 All of these scripts require Administrative Rights (i.e. mounting a WIM)

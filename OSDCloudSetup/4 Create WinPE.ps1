@@ -8,4 +8,4 @@ $Params = @{
     CloudDriver = 'Dell','VMware','WiFi'
     StartOSDCloudGUI = $true
 }
-Edit-OSDCloud.winpe @Params
+Edit-OSDCloudWinPE @Params

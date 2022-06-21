@@ -5,4 +5,4 @@
 #OAuth Token enables OSDPad Child-Items
 #Replace all the 'xxxx' with your OAuth Token
 
-Edit-OSDCloud.winpe -StartOSDPad "OSDeploy OSDHelp OSDCloudDeploy -OAuth 'xxxxxxxxxxxxxxxxxxxx'"
+Edit-OSDCloudWinPE -StartOSDPad "OSDeploy OSDHelp OSDCloudDeploy -OAuth 'xxxxxxxxxxxxxxxxxxxx'"

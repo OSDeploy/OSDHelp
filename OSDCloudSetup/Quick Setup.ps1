@@ -7,12 +7,12 @@
 
 Install-Module OSD -Force
 Import-Module OSD -Force
-New-OSDCloud.template -WinRE
-New-OSDCloud.workspace -WorkspacePath C:\OSDCloud
+New-OSDCloudTemplate -WinRE
+New-OSDCloudWorkspace -WorkspacePath C:\OSDCloud
 
 $Params = @{
     CloudDriver = 'Dell','VMware','WiFi'
     StartOSDCloudGUI = $true
 }
-Edit-OSDCloud.winpe @Params
-New-OSDCloud.iso
+Edit-OSDCloudWinPE @Params
+New-OSDCloudISO

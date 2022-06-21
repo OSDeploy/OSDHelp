@@ -10,5 +10,5 @@ $Params = @{
     StartOSDCloudGUI = $true
     Wallpaper = "$env:ProgramData\OSDCloud\Resources\Wallpaper\Wallpaper.jpg"
 }
-Edit-OSDCloud.winpe @Params
-New-OSDCloud.iso
+Edit-OSDCloudWinPE @Params
+New-OSDCloudISO
