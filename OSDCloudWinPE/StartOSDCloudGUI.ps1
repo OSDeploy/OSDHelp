@@ -2,4 +2,4 @@
 
 #How To: WinPE startup to OSDCloudGUI
 
-Edit-OSDCloud.winpe -StartOSDCloudGUI
+Edit-OSDCloudWinPE -StartOSDCloudGUI
